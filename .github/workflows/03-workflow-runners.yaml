@@ -1,30 +1,35 @@
-name: 03 - Workflow Runners
+name: 04 - Workflow Runners
 on: 
     workflow_dispatch
 
 jobs:
     ubuntu-echo:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
             - name: Show OS
               run: |
                  echo "This job is running on an Ubuntu runner."
                  echo "$RUNNER_OS"
+                 touch testfile.txt
 
     windows-echo:
-        runs-on: windows-latest
+        needs: ubuntu-echo
+        runs-on: self-hosted
         steps:
             - name: Show OS
               run: |
                  echo "This job is running on an Windows runner."
                  echo "$RUNNER_OS"
+                 echo "test content" > testfile.txt
 
     mac-echo:
-        runs-on: macos-latest
+        needs: windows-echo
+        runs-on: self-hosted
         steps:
             - name: Show OS
               run: |
                  echo "This job is running on an MacOS runner."
                  echo "$RUNNER_OS"
+                 cat ./textfile.txt
 
                  
